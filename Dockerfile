@@ -68,6 +68,5 @@ RUN set -eux ;\
 
 # Finish up
 CMD ["hub version"]
-RUN sudo mkdir -p /github/workspace && sudo chown runner:runner /github/workspace
 WORKDIR /github/workspace
 ENTRYPOINT ["/home/runner/entrypoint.sh"]
