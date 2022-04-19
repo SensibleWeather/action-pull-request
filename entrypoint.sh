@@ -42,7 +42,7 @@ fi
 
 echo -e "\nSetting GitHub credentials..."
 git remote set-url origin "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}"
-export GIT_CEILING_DIRECTORIES=/__w
+export GIT_CEILING_DIRECTORIES=/github
 git config --global user.name "${GITHUB_ACTOR}"
 git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 # Needed for hub binary
