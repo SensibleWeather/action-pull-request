@@ -42,26 +42,31 @@ LABEL \
   maintainer="${AUTHOR}" \
   repository="${REPO_URL}"
 
-RUN useradd -ms /bin/bash runner
+RUN adduser -D -g '' runner \
+        && mkdir -p /etc/sudoers.d/ \
+        && echo "runner ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/runner \
+        && chmod 0440 /etc/sudoers.d/runner
+
+RUN apk add --update sudo
 
 USER runner
 
 # Copy all needed files
-COPY entrypoint.sh /
+COPY --chown=runner:runner entrypoint.sh /home/runner
 
 # Install needed packages
 RUN set -eux ;\
-  chmod +x /entrypoint.sh ;\
-  apk update --no-cache ;\
-  apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing hub~=2.14.2 ;\
-  apk add --no-cache \
+  chmod +x /home/runner/entrypoint.sh ;\
+  sudo apk update --no-cache ;\
+  sudo apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing hub~=2.14.2 ;\
+  sudo apk add --no-cache \
     bash~=5.1.16 \
     git~=2.34.2 \
     jq~=1.6 ;\
-  rm -rf /var/cache/* ;\
-  rm -rf /root/.cache/*
+  sudo rm -rf /var/cache/* ;\
+  sudo rm -rf /root/.cache/*
 
 # Finish up
 CMD ["hub version"]
 WORKDIR /github/workspace
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/home/runner/entrypoint.sh"]
