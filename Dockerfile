@@ -49,6 +49,8 @@ RUN adduser -D -g '' runner \
 
 RUN apk add --update sudo
 
+RUN mkdir -p /github/workspace && chown -R runner:runner /github/workspace
+
 USER runner
 
 # Copy all needed files
