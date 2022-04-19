@@ -42,6 +42,10 @@ LABEL \
   maintainer="${AUTHOR}" \
   repository="${REPO_URL}"
 
+RUN useradd -ms /bin/bash runner
+
+USER runner
+
 # Copy all needed files
 COPY entrypoint.sh /
 
