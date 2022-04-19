@@ -61,9 +61,9 @@ RUN set -eux ;\
   chmod +x /home/runner/entrypoint.sh ;\
   sudo apk update --no-cache ;\
   sudo apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing hub~=2.14.2 ;\
+  sudo apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/main git~=2.35.2-r0 ;\
   sudo apk add --no-cache \
     bash~=5.1.16 \
-    git~=2.34.2 \
     jq~=1.6 ;\
   sudo rm -rf /var/cache/* ;\
   sudo rm -rf /root/.cache/*
