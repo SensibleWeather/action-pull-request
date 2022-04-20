@@ -42,7 +42,7 @@ LABEL \
   maintainer="${AUTHOR}" \
   repository="${REPO_URL}"
 
-RUN adduser -uid 1001 -gid 1001 -D -g '' runner \
+RUN adduser -u 1001 -g 1001 -D runner \
         && mkdir -p /etc/sudoers.d/ \
         && echo "runner ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/runner \
         && chmod 0440 /etc/sudoers.d/runner

@@ -13,6 +13,18 @@ Features:
 * Can replace any `old_string` inside a pull request template with a `new_string`. Or put commits' subjects in place of `old_string`.
 * When `get_diff` is `true` will add list of commits in place of `<!-- Diff commits -->` and list of modified files in place of `<!-- Diff files -->` in a pull request template.
 
+## Running as a Docker image in a Github workflow
+
+Code
+
+```yaml
+      echo "${{ secrets.TEMP_GITHUB_SENSIBLE_PAT }}" | docker login ghcr.io -u "SensibleWeatherCo" --password-stdin; \
+      docker run --rm -i -v $(pwd):/github/workspace -u runner -e GITHUB_ACTOR=${{ github.actor }} -e GITHUB_TOKEN=${{ github.token }} \
+      -e GITHUB_REPOSITORY=SensibleWeather/infrastructure -e INPUT_GITHUB_TOKEN=${{ secrets.TEMP_GITHUB_SENSIBLE_PAT }} \
+      -e INPUT_SOURCE_BRANCH=${{ steps.release_branch.outputs.name }} -e INPUT_TARGET_BRANCH=prod -e INPUT_TITLE="Automated Release for ${{ steps.friendly.outputs.date }} - ${{ steps.sha.outputs.short }}" \
+      -e INPUT_BODY="Release version ${{ steps.release_branch.outputs.version }}, commit ${{ steps.sha.outputs.short }}" \
+      ghcr.io/sensibleweather/action-pull-request:f082255
+```
 
 ## Badge swag
 [![Master branch](https://github.com/devops-infra/action-pull-request/workflows/Master%20branch/badge.svg)](https://github.com/devops-infra/action-pull-request/actions?query=workflow%3A%22Master+branch%22)
